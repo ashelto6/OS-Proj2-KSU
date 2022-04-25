@@ -1,10 +1,11 @@
-//Antonio Shelton-McGaha
-//OS Project 2
-//4/21/2022
+/*
+Antonio Shelton-McGaha
+OS Project 2
+*/
 
 #include <iostream>
-#include <fstream>
 #include <string>
+#include <fstream>
 
 int main()
 {
@@ -15,21 +16,21 @@ int main()
     const int numOfProcesses = 5; // Number of processes
     const int numOfResults = 3; // Number of resources
 
-    int allocation[numOfProcesses][numOfResults]; //Allocation Matrix
+    int allocation[numOfProcesses][numOfResults];
  
-    int max[numOfProcesses][numOfResults]; //Max Matrix
+    int max[numOfProcesses][numOfResults];
 
-    int avail[numOfResults]; //Available Resources Matrix
+    int avail[numOfResults];
  
     std::string line;
     getline(inFile, line);
 
-    //fills alloc[][] from txt file
+    //populates 2D allocation array
     for (int i = 0; i < numOfProcesses; ++i)
         for(int j = 0; j < numOfResults; ++j)
             inFile >> allocation[i][j];
 
-    //fills max[][] from txt file
+    //populated 2D max array
     for (int i = 0; i < numOfProcesses; ++i)
         for(int j = 0; j < numOfResults; ++j)
             inFile >> max[i][j];   
@@ -41,14 +42,13 @@ int main()
 
 
     int finish[numOfProcesses]; 
-    int seq[numOfProcesses];    //stores the correct safe sequence
+    int seq[numOfProcesses];
     int seqIndex = 0;
-
-    //initializes finish array values to 0 
+    
     for( int i = 0; i < numOfProcesses; ++i )
         finish[i] = 0;
 
-    int need[numOfProcesses][numOfResults]; //stores the values for how many resources each process is requesting
+    int need[numOfProcesses][numOfResults];
     for( int i = 0; i < numOfProcesses; ++i ) 
     {
         for( int j = 0; j < numOfResults; ++j )
@@ -65,7 +65,7 @@ int main()
                 for (int j = 0; j < numOfResults; ++j) 
                 {
                     if (need[i][j] > avail[j])
-                    { //if a process needs more resources than are available
+                    { 
                         flag = 1;
                         break;
                     }
@@ -84,9 +84,9 @@ int main()
         }
     }
 
-  int flag = 1; //if flag is 0, the sequence is not safe; if 1, sequence is safe
+  int flag = 1;
 
-  // checks if sequence is safe or not
+  //safe or unsafe?
   for( int i = 0; i < numOfProcesses; ++i )
   {
         if( !finish[i] )
@@ -97,7 +97,7 @@ int main()
         }
   }
  
-  //if sequence is safe it prints the order 
+  //if safe sequence print the order of processes
   if( flag == 1 )
   {
     std::cout << "Safe Sequence -> ";
