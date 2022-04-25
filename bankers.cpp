@@ -40,7 +40,6 @@ int main()
 
     inFile.close();
 
-
     int finish[numOfProcesses]; 
     int seq[numOfProcesses];
     int seqIndex = 0;
