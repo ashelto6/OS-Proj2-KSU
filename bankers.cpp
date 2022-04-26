@@ -9,11 +9,10 @@ OS Project 2
 
 int main()
 {
-
     std::ifstream in("input.txt");
 
-    const int numOfProcesses = 5; // Number of processes
-    const int numOfResults = 3; // Number of resources
+    const int numOfProcesses = 5; // # of proc
+    const int numOfResults = 3; // # of res
 
     int allocation[numOfProcesses][numOfResults];
     int max[numOfProcesses][numOfResults];
@@ -23,16 +22,16 @@ int main()
     getline(in, line);
 
     //populates 2D allocation array
-    for (int i = 0; i < numOfProcesses; ++i)
-        for(int j = 0; j < numOfResults; ++j)
+    for( int i = 0; i < numOfProcesses; ++i )
+        for( int j = 0; j < numOfResults; ++j )
             in >> allocation[i][j];
 
     //populated 2D max array
-    for (int i = 0; i < numOfProcesses; ++i)
-        for(int j = 0; j < numOfResults; ++j)
+    for( int i = 0; i < numOfProcesses; ++i )
+        for( int j = 0; j < numOfResults; ++j )
             in >> max[i][j];   
 
-    for(int i = 0; i < numOfResults; ++i)
+    for( int i = 0; i < numOfResults; ++i )
         in >> accessible[i];
 
     in.close();
@@ -54,19 +53,19 @@ int main()
     {
         for( int i = 0; i < numOfProcesses; ++i ) 
         {
-            if ( !finish[i] ) 
+            if( !finish[i] ) 
             {
                 int flag = 0;
-                for (int j = 0; j < numOfResults; ++j) 
+                for( int j = 0; j < numOfResults; ++j ) 
                 {
-                    if (required[i][j] > accessible[j])
+                    if( required[i][j] > accessible[j] )
                     { 
                         flag = 1;
                         break;
                     }
                 }
 
-                if ( !flag ) 
+                if( !flag ) 
                 {
                     sequence[sequenceIdx++] = i;
 
