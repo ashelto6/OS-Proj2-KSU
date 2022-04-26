@@ -10,50 +10,46 @@ OS Project 2
 int main()
 {
 
-    std::ifstream inFile;
-    inFile.open("input.txt");
+    std::ifstream in("input.txt");
 
     const int numOfProcesses = 5; // Number of processes
     const int numOfResults = 3; // Number of resources
 
     int allocation[numOfProcesses][numOfResults];
- 
     int max[numOfProcesses][numOfResults];
-
-    int avail[numOfResults];
+    int accessible[numOfResults];
  
     std::string line;
-    getline(inFile, line);
+    getline(in, line);
 
     //populates 2D allocation array
     for (int i = 0; i < numOfProcesses; ++i)
         for(int j = 0; j < numOfResults; ++j)
-            inFile >> allocation[i][j];
+            in >> allocation[i][j];
 
     //populated 2D max array
     for (int i = 0; i < numOfProcesses; ++i)
         for(int j = 0; j < numOfResults; ++j)
-            inFile >> max[i][j];   
+            in >> max[i][j];   
 
     for(int i = 0; i < numOfResults; ++i)
-        inFile >> avail[i];
+        in >> accessible[i];
 
-    inFile.close();
-
-    int finish[numOfProcesses]; 
-    int seq[numOfProcesses];
-    int seqIndex = 0;
+    in.close();
     
+    int finish[numOfProcesses]; 
     for( int i = 0; i < numOfProcesses; ++i )
         finish[i] = 0;
 
-    int need[numOfProcesses][numOfResults];
+    int required[numOfProcesses][numOfResults];
     for( int i = 0; i < numOfProcesses; ++i ) 
     {
         for( int j = 0; j < numOfResults; ++j )
-            need[i][j] = max[i][j] - allocation[i][j];
+            required[i][j] = max[i][j] - allocation[i][j];
     }
 
+    int sequenceIdx = 0;
+    int sequence[numOfProcesses];
     for( int k = 0; k < 5; ++k ) 
     {
         for( int i = 0; i < numOfProcesses; ++i ) 
@@ -63,7 +59,7 @@ int main()
                 int flag = 0;
                 for (int j = 0; j < numOfResults; ++j) 
                 {
-                    if (need[i][j] > avail[j])
+                    if (required[i][j] > accessible[j])
                     { 
                         flag = 1;
                         break;
@@ -72,10 +68,10 @@ int main()
 
                 if ( !flag ) 
                 {
-                    seq[seqIndex++] = i;
+                    sequence[sequenceIdx++] = i;
 
                     for( int y = 0; y < numOfResults; ++y )
-                        avail[y] += allocation[i][y];
+                        accessible[y] += allocation[i][y];
 
                     finish[i] = 1;
                 }
@@ -102,8 +98,8 @@ int main()
     std::cout << "Safe Sequence -> ";
 
     for( int i = 0; i < numOfProcesses - 1; ++i )
-        std::cout << "P" << seq[i] << ", ";
+        std::cout << "P" << sequence[i] << ", ";
 
-    std::cout << "P" << seq[numOfProcesses - 1] << "\n";
+    std::cout << "P" << sequence[numOfProcesses - 1] << "\n";
   }
 }
